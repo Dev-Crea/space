@@ -12,8 +12,8 @@ const Atk = imports.gi.Atk;
 const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
 const Lang = imports.lang;
-const FileUtils = imports.misc.fileUtils;
-const Util = imports.misc.util;
+const not = imports.gi.Notify;
+const GTop = imports.gi.GTop;
 
 const IndicatorName = 'Space';
 
@@ -47,6 +47,7 @@ const Space = new Lang.Class({
 	Extends: PanelMenu.Button,
 
 	_init: function(metadata, params) {
+		//not.notify_notification_set_app_name(notification, IndicatorName);
 		this.parent(null, IndicatorName);
 		this.actor.accessible_role = Atk.Role.TOGGLE_BUTTON;
 
@@ -73,13 +74,36 @@ const Space = new Lang.Class({
 	},
 
 	_createDefaultApps: function() {
-		let vol = new PopupGiconMenuItem('volumes 1', {});
+		let d = new Disk();
+		let text = 'Volume de ' + d._get_size() + ' - ' + d._get_used() + ' de libre.';
+
+		let vol = new PopupGiconMenuItem(text, {});
 		return vol;
 	},
 });
 
+/*
+ * System Disk
+ */
+const Disk = new Lang.Class({
+	Name: 'SystemMonitor.Disk',
+
+	_init: function() {
+		this.gtop = new GTop.glibtop_fsusage();
+		this.usage = 10;
+		this.path= "/";
+	},
+
+	_get_size: function() {
+		return "60 Go".toString();
+	},
+
+	_get_used: function() {
+		return "15 %".toString();
+	},
+});
+
 function init() {
-	global.logError('Init le module');
 }
 
 /*
@@ -88,13 +112,12 @@ function init() {
 let _indicator;
 
 function enable() {
-	global.logError('Active le module');
     _indicator = new Space();
     Main.panel.addToStatusArea(IndicatorName, _indicator);
 }
 
 function disable() {
-	global.logError('Desactive le module');
+	MountsMonitor.disconnect();
     _indicator.destroy();
     _indicator = null;
 }
