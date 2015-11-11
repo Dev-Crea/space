@@ -1,74 +1,93 @@
 
+const Gio = imports.gi.Gio;
+const GLib = imports.gi.GLib;
+const Gtk = imports.gi.Gtk;
+
 const St = imports.gi.St;
 const Main = imports.ui.main;
-const Tweener = imports.ui.tweener;
+const Mainloop = imports.mainloop;
+const Shell = imports.gi.Shell;
+const Atk = imports.gi.Atk;
+
+const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
+const Lang = imports.lang;
+const FileUtils = imports.misc.fileUtils;
+const Util = imports.misc.util;
 
-let text, button;
+const IndicatorName = 'Space';
 
-function _hideHello() {
-    Main.uiGroup.remove_actor(text);
-    text = null;
+/*
+ * Popup Menu
+ */
+function PopupGiconMenuItem() {
+	this._init.apply(this, arguments);
 }
 
-function _showHello() {
-	/*
-    if (!text) {
-        text = new St.Label({ style_class: 'helloworld-label', text: "Hello, world !!" });
-        Main.uiGroup.add_actor(text);
-    }
+PopupGiconMenuItem.prototype = {
+	__proto__: PopupMenu.PopupBaseMenuItem.prototype,
 
-    text.opacity = 255;
-	*/
-    let monitor = Main.layoutManager.primaryMonitor;
-    let button = new St.Bin({ style_class: 'panel-button',
-		                      reactive: true,
-		                      can_focus: true,
-		                      x_fill: true,
-		                      y_fill: false,
-		                      track_hover: true });
-	let icon = new St.Icon({ icon_name: 'drive-harddisk-symbolic',
-                             style_class: 'system-status-icon' });
+	_init: function(volume_name, gIcon, params) {
+		PopupMenu.PopupBaseMenuItem.prototype._init.call(this, params);
 
-    button.set_child(icon);
+		this.label = new St.Label({ text: volume_name });
+		this._icon = new St.Icon({
+			gicon: gIcon,
+			style_class: 'popup-menu-icon' });
+		this.actor.add_child(this._icon, {align: St.Align.END });
+		this.actor.add_child(this.label);
+	},
+};
 
-    //text.set_position(monitor.x + Math.floor(monitor.width / 2 - text.width / 2),
-    //                  monitor.y + Math.floor(monitor.height / 2 - text.height / 2));
+/*
+ * Space Object
+ */
+const Space = new Lang.Class({
+	Name: IndicatorName,
+	Extends: PanelMenu.Button,
 
-    /*
-    Tweener.addTween(text,
-                     { opacity: 0,
-                       time: 2,
-                       transition: 'easeOutQuad',
-                       onComplete: _hideHello });
-	*/
+	_init: function(metadata, params) {
+		this.parent(null, IndicatorName);
+		this.actor.accessible_role = Atk.Role.TOGGLE_BUTTON;
 
-	this.actor.set_child(button);
-	this._vbox = new St.BoxLayout({vertical: true});
-	this.menu.addActor(this._vbox);
-	item = new PopupMenu.PopupMenuItem("Take a shot !!");
-	this._vbox.add(item.actor);
-}
+		// drive-multidisk-symbolic
+		// drive-harddisk-symbolic
+		this._icon = new St.Icon({ 	icon_name: 'drive-harddisk-symbolic',
+									style_class: 'system-status-icon' });
+		this.actor.add_actor(this._icon);
+		this.actor.add_style_class_name('panel-status-button');
+
+		this.connect('destroy', Lang.bind(this, this._onDestroy));
+
+		this._setupDiskViews();
+	},
+
+	_onDestroy: function() {
+		this._monitor.cancel();
+		Mainloop.source_remove();
+	},
+
+	_setupDiskViews: function() {
+	}
+});
 
 function init() {
-    button = new St.Bin({ style_class: 'panel-button',
-                          reactive: true,
-                          can_focus: true,
-                          x_fill: true,
-                          y_fill: false,
-                          track_hover: true });
-    let icon = new St.Icon({ icon_name: 'drive-harddisk-symbolic',
-                             style_class: 'system-status-icon' });
-
-    button.set_child(icon);
-    button.connect('button-press-event', _showHello);
+	global.logError('Init le module');
 }
 
+/*
+ * Enable/Disable extension
+ */
+let _indicator;
+
 function enable() {
-    Main.panel._rightBox.insert_child_at_index(button, 0);
+	global.logError('Active le module');
+    _indicator = new Space();
     Main.panel.addToStatusArea(IndicatorName, _indicator);
 }
 
 function disable() {
-    Main.panel._rightBox.remove_child(button);
+	global.logError('Desactive le module');
+    _indicator.destroy();
+    _indicator = null;
 }
