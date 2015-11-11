@@ -2,6 +2,8 @@
 const Gio = imports.gi.Gio;
 const GLib = imports.gi.GLib;
 const Gtk = imports.gi.Gtk;
+const not = imports.gi.Notify;
+const GTop = imports.gi.GTop;
 
 const St = imports.gi.St;
 const Main = imports.ui.main;
@@ -11,9 +13,9 @@ const Atk = imports.gi.Atk;
 
 const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
+const Slider = imports.ui.slider;
+
 const Lang = imports.lang;
-const not = imports.gi.Notify;
-const GTop = imports.gi.GTop;
 
 const IndicatorName = 'Space';
 
@@ -34,7 +36,10 @@ PopupGiconMenuItem.prototype = {
 		this._icon = new St.Icon({
 			icon_name: 'drive-multidisk-symbolic',
 			style_class: 'popup-menu-icon' });
-		this.actor.add_child(this._icon, {align: St.Align.END });
+		this.progress = new Slider.Slider(40);
+
+		this.actor.add(this.progress.actor, {expand: true});
+		this.actor.add_child(this._icon);
 		this.actor.add_child(this.label);
 	},
 };
@@ -75,7 +80,8 @@ const Space = new Lang.Class({
 
 	_createDefaultApps: function() {
 		let d = new Disk();
-		let text = 'Volume de ' + d._get_size() + ' - ' + d._get_used() + ' de libre.';
+		let text = 'Volume de ' + d._get_size() + ' - ' + d._get_free() + ' de libre.';
+
 
 		let vol = new PopupGiconMenuItem(text, {});
 		return vol;
@@ -89,17 +95,25 @@ const Disk = new Lang.Class({
 	Name: 'SystemMonitor.Disk',
 
 	_init: function() {
-		this.gtop = new GTop.glibtop_fsusage();
-		this.usage = 10;
 		this.path= "/";
+
+		this.gtop = new GTop.glibtop_fsusage();
+
+		// Size disk with units
+		this.size = 60;
+		this.size_unit = 'Go';
+
+		// Free space to disk with units
+		this.free = 15;
+		this.free_unit = "%";
 	},
 
 	_get_size: function() {
-		return "60 Go".toString();
+		return this.size + " " + this.size_unit;
 	},
 
-	_get_used: function() {
-		return "15 %".toString();
+	_get_free: function() {
+		return this.free + " " + this.free_unit;
 	},
 });
 
