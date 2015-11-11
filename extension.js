@@ -27,12 +27,12 @@ function PopupGiconMenuItem() {
 PopupGiconMenuItem.prototype = {
 	__proto__: PopupMenu.PopupBaseMenuItem.prototype,
 
-	_init: function(volume_name, gIcon, params) {
+	_init: function(volume_name, params) {
 		PopupMenu.PopupBaseMenuItem.prototype._init.call(this, params);
 
 		this.label = new St.Label({ text: volume_name });
 		this._icon = new St.Icon({
-			gicon: gIcon,
+			icon_name: 'drive-multidisk-symbolic',
 			style_class: 'popup-menu-icon' });
 		this.actor.add_child(this._icon, {align: St.Align.END });
 		this.actor.add_child(this.label);
@@ -68,7 +68,14 @@ const Space = new Lang.Class({
 	},
 
 	_setupDiskViews: function() {
-	}
+		let menu = this._createDefaultApps();
+		this.menu.addMenuItem(menu, 0);
+	},
+
+	_createDefaultApps: function() {
+		let vol = new PopupGiconMenuItem('volumes 1', {});
+		return vol;
+	},
 });
 
 function init() {
