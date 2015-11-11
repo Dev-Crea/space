@@ -95,16 +95,19 @@ const Disk = new Lang.Class({
 	Name: 'SystemMonitor.Disk',
 
 	_init: function() {
+
 		this.path= "/";
 
 		this.gtop = new GTop.glibtop_fsusage();
+		GTop.glibtop_get_fsusage(this.gtop, this.path);
 
 		// Size disk with units
-		this.size = 60;
+		size = ((this.gtop.block_size * this.gtop.blocks) / 1073741824).toFixed(2);
+		this.size = size;
 		this.size_unit = 'Go';
 
 		// Free space to disk with units
-		this.free = 15;
+		this.free = 0; // * Math.log(1073741824);
 		this.free_unit = "%";
 	},
 
