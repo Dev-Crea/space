@@ -13,7 +13,6 @@ const Atk = imports.gi.Atk;
 
 const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
-const Slider = imports.ui.slider;
 
 const Lang = imports.lang;
 
@@ -36,9 +35,7 @@ PopupGiconMenuItem.prototype = {
 		this._icon = new St.Icon({
 			icon_name: 'drive-multidisk-symbolic',
 			style_class: 'popup-menu-icon' });
-		this.progress = new Slider.Slider(40);
 
-		this.actor.add(this.progress.actor, {expand: true});
 		this.actor.add_child(this._icon);
 		this.actor.add_child(this.label);
 	},
@@ -56,8 +53,6 @@ const Space = new Lang.Class({
 		this.parent(null, IndicatorName);
 		this.actor.accessible_role = Atk.Role.TOGGLE_BUTTON;
 
-		// drive-multidisk-symbolic
-		// drive-harddisk-symbolic
 		this._icon = new St.Icon({ 	icon_name: 'drive-harddisk-symbolic',
 									style_class: 'system-status-icon' });
 		this.actor.add_actor(this._icon);
