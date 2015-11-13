@@ -75,7 +75,7 @@ const Space = new Lang.Class({
 
 	_createDefaultApps: function() {
 		let d = new Disk();
-        let text = d._get_mount() + ' | Taille : ' + d._get_size() + ' - ' + d._get_free() + ' de libre';
+        let text = d._get_mount() + ' Taille : ' + d._get_size() + ' - ' + d._get_free() + ' de libre';
 
 		let vol = new PopupGiconMenuItem(text, {});
 		return vol;
@@ -105,7 +105,7 @@ const Disk = new Lang.Class({
 	},
 
 	_get_size: function() {
-		return this.size + " " + this.size_unit;
+		return this.size.toFixed(2) + " " + this.size_unit;
 	},
 
 	_get_free: function() {
@@ -113,7 +113,7 @@ const Disk = new Lang.Class({
 	},
 
     _get_mount: function() {
-        return 'Disk : ' + this.path;
+        return 'Disk "' + this.path + '" | ';
     }
 });
 
