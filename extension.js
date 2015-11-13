@@ -75,7 +75,7 @@ const Space = new Lang.Class({
 
 	_createDefaultApps: function() {
 		let d = new Disk();
-		let text = 'Volume de ' + d._get_size() + ' - ' + d._get_free() + ' de libre.';
+        let text = d._get_mount() + ' | Taille : ' + d._get_size() + ' - ' + d._get_free() + ' de libre';
 
 		let vol = new PopupGiconMenuItem(text, {});
 		return vol;
@@ -97,13 +97,13 @@ const Disk = new Lang.Class({
 
 		// Size disk with units
 		//s = (Math.round(parseFloat(this.gtop.block_size) * parseFloat(this.gtop.blocks)));// / parseFloat(1073741824));//.toPrecision(4);
-        s = (this.gtop.blocks - this.gtop.bfree) / this.gtop.blocks;
+        s = this.gtop.blocks - this.gtop.bfree;
         //size = this._convert(s);
 		this.size = 0;
 		this.size_unit = 'Go';
 
 		// Free space to disk with units
-		this.free = 100 - Math.round(s * 100)
+		this.free = 100 - Math.round((s / this.gtop.blocks) * 100)
 		this.free_unit = "%";
 	},
 
@@ -122,6 +122,10 @@ const Disk = new Lang.Class({
 	_get_free: function() {
 		return this.free + " " + this.free_unit;
 	},
+
+    _get_mount: function() {
+        return 'Disk : ' + this.path;
+    }
 });
 
 function init() {
