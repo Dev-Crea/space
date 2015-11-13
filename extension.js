@@ -77,7 +77,6 @@ const Space = new Lang.Class({
 		let d = new Disk();
 		let text = 'Volume de ' + d._get_size() + ' - ' + d._get_free() + ' de libre.';
 
-
 		let vol = new PopupGiconMenuItem(text, {});
 		return vol;
 	},
@@ -97,14 +96,24 @@ const Disk = new Lang.Class({
 		GTop.glibtop_get_fsusage(this.gtop, this.path);
 
 		// Size disk with units
-		size = ((this.gtop.block_size * this.gtop.blocks) / 1073741824).toFixed(2);
-		this.size = size;
+		//s = (Math.round(parseFloat(this.gtop.block_size) * parseFloat(this.gtop.blocks)));// / parseFloat(1073741824));//.toPrecision(4);
+        s = (this.gtop.blocks - this.gtop.bfree) / this.gtop.blocks;
+        //size = this._convert(s);
+		this.size = 0;
 		this.size_unit = 'Go';
 
 		// Free space to disk with units
-		this.free = 0; // * Math.log(1073741824);
+		this.free = 100 - Math.round(s * 100)
 		this.free_unit = "%";
 	},
+
+    _convert: function(aSize) {
+        aSize = Math.abs(parseInt(aSize, 10));
+        var def = [[1, 'octets'], [1024, 'ko'], [1024*1024, 'Mo'], [1024*1024*1024, 'Go'], [1024*1024*1024*1024, 'To']];
+        for(var i=0; i<def.length; i++){
+            if(aSize<def[i][0]) return (aSize/def[i-1][0]).toFixed(2)+' '+def[i-1][1];
+        }
+    },
 
 	_get_size: function() {
 		return this.size + " " + this.size_unit;
