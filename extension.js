@@ -30,19 +30,24 @@ PopupGiconMenuItem.prototype = {
 
 	_init: function(volume_name, params) {
 		PopupMenu.PopupBaseMenuItem.prototype._init.call(this, params);
+        let elements = new Array(["icons", "name", "size"]);
 
-		this.label = new St.Label({ text: volume_name });
-		this._icon = new St.Icon({
-			icon_name: 'drive-multidisk-symbolic',
-			style_class: 'popup-menu-icon' });
-
-		this.actor.add_child(this._icon);
-		this.actor.add_child(this.label);
+        this.liste = new St.BoxLayout({ vertical: true });
+        this.text_items = this.create_text_items(volume_name);
+        for(let item in  this.text_items) {
+            this.liste.add_actor(this.text_items[item]);
+        }
+        this.actor.add_actor(this.liste);
+    },
+    create_text_items: function(label) {
+        return [new St.Icon({ icon_name: 'drive-multidisk-symbolic' }),
+                new St.Label({ text: label })];
 	},
 };
 
 /*
  * Space Object
+ * Princpal object - Button for listing disks
  */
 const Space = new Lang.Class({
 	Name: IndicatorName,
@@ -69,16 +74,20 @@ const Space = new Lang.Class({
 	},
 
 	_setupDiskViews: function() {
-		let menu = this._createDefaultApps();
-		this.menu.addMenuItem(menu, 0);
+        let arrayMount = new Array();
+        arrayMount.push("/tmp");
+        arrayMount.push("/");
+
+        for(let i = 0; i < arrayMount.length; i++) {
+            this._createDefaultApps(arrayMount[i], i, arrayMount);
+        }
 	},
 
-	_createDefaultApps: function() {
-		let d = new Disk();
+	_createDefaultApps: function(element, index, array) {
+        let d = new Disk(element);
         let text = d._get_mount() + ' Taille : ' + d._get_size() + ' - ' + d._get_free() + ' de libre';
-
-		let vol = new PopupGiconMenuItem(text, {});
-		return vol;
+        let vol = new PopupGiconMenuItem(text, {});
+        this.menu.addMenuItem(vol, 0);
 	},
 });
 
@@ -88,9 +97,9 @@ const Space = new Lang.Class({
 const Disk = new Lang.Class({
 	Name: 'SystemMonitor.Disk',
 
-	_init: function() {
+	_init: function(path) {
 
-		this.path= "/";
+		this.path= path;
 		this.gtop = new GTop.glibtop_fsusage();
 		GTop.glibtop_get_fsusage(this.gtop, this.path);
 
