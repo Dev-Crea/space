@@ -16,8 +16,8 @@ const PopupMenu = imports.ui.popupMenu;
 const Slider = imports.ui.slider;
 
 const Lang = imports.lang;
-
 const IndicatorName = 'Space';
+let Style;
 
 /*
  * Popup Menu
@@ -29,20 +29,24 @@ function PopupGiconMenuItem() {
 PopupGiconMenuItem.prototype = {
 	__proto__: PopupMenu.PopupBaseMenuItem.prototype,
 
-	_init: function(volume_name, params) {
+	_init: function(volume_name, volume_size, volume_free, params) {
 		PopupMenu.PopupBaseMenuItem.prototype._init.call(this, params);
 
         this.liste = new St.BoxLayout({ vertical: false });
-        this.text_items = this.create_text_items(volume_name);
+        this.text_items = this.create_text_items(volume_name, volume_size, volume_free);
 
         for(let item in  this.text_items) {
             this.liste.add_actor(this.text_items[item]);
         }
         this.actor.add_actor(this.liste);
     },
-    create_text_items: function(label) {
+    create_text_items: function(disk_name, disk_size, disk_free) {
         return [new St.Icon({ icon_name: 'drive-multidisk-symbolic' }),
-                new St.Label({ text: label })];
+                new St.Label({ text: disk_name, style_class: 'info-disk-name info-disk' }),
+                new St.Label({ text: "|", style_class: 'separator info-disk' }),
+                new St.Label({ text: disk_size, style_class: 'info-disk-size info-disk' }),
+                new St.Label({ text: "|", style_class: 'separator info-disk' }),
+                new St.Label({ text: disk_free , style_class: 'info-disk-free info-disk' })];
 	},
 };
 
@@ -86,8 +90,10 @@ const Space = new Lang.Class({
 
 	_createDefaultApps: function(element, index, array) {
         let d = new Disk(element);
-        let text = d._get_mount() + ' Taille : ' + d._get_size() + ' - ' + d._get_free() + ' de libre';
-        let vol = new PopupGiconMenuItem(text, {});
+        let name = d._get_mount();
+        let size = ' Taille : ' + d._get_size();
+        let free = ' Libre : ' + d._get_free();
+        let vol = new PopupGiconMenuItem(name, size, free, {});
         this.menu.addMenuItem(vol, 0);
 	},
 });
@@ -123,7 +129,7 @@ const Disk = new Lang.Class({
 	},
 
     _get_mount: function() {
-        return 'Disk "' + this.path + '" | ';
+        return 'Volume "' + this.path+'" ';
     }
 });
 

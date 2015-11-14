@@ -1,0 +1,14 @@
+.info-disk {
+    width: 100px;
+    padding: 25px 5px;
+}
+
+.separator.info-disk {
+    width: 10px;
+    text-align: center;
+}
+
+.info-disk-size {
+    width: 150px;
+    text-align: center;
+}
