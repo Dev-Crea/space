@@ -13,6 +13,7 @@ const Atk = imports.gi.Atk;
 
 const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
+const Slider = imports.ui.slider;
 
 const Lang = imports.lang;
 
@@ -30,10 +31,10 @@ PopupGiconMenuItem.prototype = {
 
 	_init: function(volume_name, params) {
 		PopupMenu.PopupBaseMenuItem.prototype._init.call(this, params);
-        let elements = new Array(["icons", "name", "size"]);
 
-        this.liste = new St.BoxLayout({ vertical: true });
+        this.liste = new St.BoxLayout({ vertical: false });
         this.text_items = this.create_text_items(volume_name);
+
         for(let item in  this.text_items) {
             this.liste.add_actor(this.text_items[item]);
         }
