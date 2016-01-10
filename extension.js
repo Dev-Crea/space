@@ -1,3 +1,6 @@
+/*
+ * Space Disk Utility
+ */
 
 const Gio = imports.gi.Gio;
 const GLib = imports.gi.GLib;
@@ -139,15 +142,15 @@ function init() {
 /*
  * Enable/Disable extension
  */
-let _indicator;
+let spacediskindicator;
 
 function enable() {
-    _indicator = new Space();
-    Main.panel.addToStatusArea(IndicatorName, _indicator);
+    spacediskindicator = new Space();
+    Main.panel.addToStatusArea(IndicatorName, spacediskindicator);
 }
 
 function disable() {
 	MountsMonitor.disconnect();
-    _indicator.destroy();
-    _indicator = null;
+    spacediskindicator.destroy();
+    spacediskindicator = null;
 }
