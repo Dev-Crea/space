@@ -2,11 +2,12 @@
     <schema id="org.gnome.shell.extensions.space"
         path="/org/gnome/shell/extensions/space/">
 
-        <key type="i" name="disks-list">
-            <default>15</default>
-            <summary>List of disks monitoring</summary>
-            <description>lfkdbmfdlk</description>
-            <range min="5" max="5000"/>
+        <key type="b" name="disk-percent">
+            <default>true</default>
+            <summary>Display data in percent</summary>
+            <description>
+                If true, the size disk free in displaying in percent. By default is true.
+            </description>
         </key>
 
     </schema>
