@@ -21,7 +21,7 @@ function buildPrefsWidget() {
     let box = buildable.get_object('vbox_built');
 
     // Bind fields to settings
-    settings.bind('disks-list', buildable.get_object('field_disklist'), 'value', Gio.SettingsBindFlags.DEFAULT);
+    settings.bind('disk-percent', buildable.get_object('field_diskpercent'), 'active', Gio.SettingsBindFlags.DEFAULT);
 
     // Display box
     box.show_all();
