@@ -1,0 +1,13 @@
+<schemalist gettext-domain="gnome-shell-extensions">
+    <schema id="org.gnome.shell.extensions.space"
+        path="/org/gnome/shell/extensions/space/">
+
+        <key type="i" name="disks-list">
+            <default>15</default>
+            <summary>List of disks monitoring</summary>
+            <description>lfkdbmfdlk</description>
+            <range min="5" max="5000"/>
+        </key>
+
+    </schema>
+</schemalist>

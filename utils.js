@@ -9,7 +9,7 @@ function getSettings() {
     let extension = ExtensionUtils.getCurrentExtension();
     let schema = 'org.gnome.shell.extensions.space';
 
-    const GioSSS = SettingsSchemaSource;
+    const GioSSS = Gio.SettingsSchemaSource;
 
     let schemaDir = extension.dir.get_child('schemas');
     let schemaSource;
@@ -23,7 +23,8 @@ function getSettings() {
 
     let schemaObj = schemaSource.lookup(schema, true);
     if (!schemaObj) {
-        throw new Error('Schema ' + schema + ' could not be found for extension ' + extension.metadata.uuid + '. Please check your installation.');
+        throw new Error('Schema ' + schema + ' could not be found for extension ' +
+            extension.metadata.uuid + '. Please check your installation.');
     }
 
     return new Gio.Settings({settings_schema: schemaObj});
