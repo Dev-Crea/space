@@ -2,5 +2,9 @@
     "description": "Space disk usage",
     "name": "Space",
     "uuid": "Space@dev-crea.com",
-    "shell-version": ["3.18.1", "3.18.2", "3.18.3"]
+    "shell-version": [
+        "3.18"
+    ],
+    "url": "http://git.d2go.fr/Jeremy/space",
+    "version": 0
 }
