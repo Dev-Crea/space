@@ -29,6 +29,7 @@ const _ = Gettext.gettext;
  * Initialize application
  */
 function init() {
+    Utils.initTranslations("space");
 }
 
 /*

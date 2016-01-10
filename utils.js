@@ -30,7 +30,7 @@ function getSettings() {
     return new Gio.Settings({settings_schema: schemaObj});
 }
 
-function initTranslations(doamin) {
+function initTranslations(domain) {
     let extension = ExtensionUtils.getCurrentExtension();
 
     domain = domain || extension.metadata['gettext-domain'];
