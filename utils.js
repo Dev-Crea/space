@@ -1,4 +1,4 @@
-const GetText = imports.gettext;
+const Gettext = imports.gettext;
 
 const Gio = imports.gi.Gio;
 
@@ -28,4 +28,16 @@ function getSettings() {
     }
 
     return new Gio.Settings({settings_schema: schemaObj});
+}
+
+function initTranslations(doamin) {
+    let extension = ExtensionUtils.getCurrentExtension();
+
+    domain = domain || extension.metadata['gettext-domain'];
+
+    let localeDir = extension.dir.get_child('locale');
+    if (localeDir.query_exists(null))
+        Gettext.bindtextdomain(domain, localeDir.get_path());
+    else
+        Gettext.bindtextdomain(domain, Config.LOCALEDIR);
 }
