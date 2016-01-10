@@ -2,7 +2,7 @@
  * Space Disk Utility
  */
 
-const Clutter = imports.gi.clutter;
+const Clutter = imports.gi.Clutter;
 const Lang = imports.lang;
 
 const St = imports.gi.St;
@@ -43,22 +43,45 @@ const SpaceIndicator = new Lang.Class({
     _updateProcess_sourceId: null,
     _updateProcess_stream: null,
 
-	_init: function() {
+    _init: function() {
         this.parent(0.0, "SpaceIndicator");
         Gtk.IconTheme.get_default().append_search_path(Me.dir.get_child('icons').get_path());
-        this.updateIcon = new St.Icon({icons_name: "hard-disk", style_class: 'system-status-icon'});
 
-        let box = new St.BoxLayout({ vertical: false, style_class: 'panel-status-menu-box' });
-        this.label = new St.Label({ text: '', y_expand: true, y_align: Clutter.ActorAlign.CENTER })
+        this.updateIcon = new St.Icon({icon_name: "hard-disk",
+            style_class: 'system-status-icon'});
+
+        let box = new St.BoxLayout({ vertical: false,
+            style_class: 'panel-status-menu-box' });
+        this.label = new St.Label({ text: '',
+            y_expand: true,
+            y_align: Clutter.ActorAlign.CENTER });
 
         box.add_child(this.updateIcon);
-        box.add_chils(this.label);
+        box.add_child(this.label);
         this.actor.add_child(box);
+
+        // Prepare menu
+        this.menuExpander = new PopupMenu.PopupSubMenuMenuItem('');
+        this.updatesListMenuLabel = new St.Label();
+        this.menuExpander.menu.box.add(this.updatesListMenuLabel);
+        this.menuExpander.menu.box.style_class = 'space-list';
+
+        // Configure settings popup
+        let settingsMenuItem = new PopupMenu.PopupMenuItem(_('Settings'));
+
+        //Add menu elements
+        this.menu.addMenuItem(this.menuExpander);
+        this.menu.addMenuItem(settingsMenuItem);
+
+        // Apply action to menu
+        settingsMenuItem.connect('activate', Lang.bind(this, this._openSettings));
     },
 
-    openSettings: function () {
+    _openSettings: function () {
          Util.spawn([ "gnome-shell-extension-prefs", Me.uuid ]);
-    }
+    },
+    destroy: function() {
+    },
 });
 
 /*
