@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<interface domain="space">
+
+<object class="GtkAdjustment" id="Adjust_1">
+    <property name="lower">5</property>
+    <property name="upper">5000</property>
+    <property name="step_increment">1</property>
+</object>
+
+<object class="GtkAdjustment" id="Adjust_2">
+    <property name="lower">30</property>
+    <property name="upper">2000</property>
+    <property name="step_increment">30</property>
+</object>
+
+<object class="GtkVBox" id="vbox_built">
+    <property name="margin">10</property>
+    <property name="spacing">5</property>
+
+    <child>
+        <object class="GtkLabel">
+            <property name="label">Liste des disques à surveiller</property>
+            <property name="use_markup">true</property>
+            <property name="hexpand">true</property>
+            <property name="halign">1</property>
+        </object>
+    </child>
+</object>
+
+</interface>
