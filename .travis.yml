@@ -17,6 +17,7 @@ deploy:
   file_glob: true
   on:
     repo: Dev-Crea/space
+    all_branches: true
 
 notifications:
   email:
