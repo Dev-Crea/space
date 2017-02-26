@@ -58,13 +58,20 @@ ListDisks.prototype = {
     }
     this.actor.add_actor(this.liste);
   },
-  create_text_items: function(disk_name, disk_size, disk_free) {
+  create_text_items: function(disk_name, disk_free, disk_size) {
+    return [
+      new St.Label({ text: disk_name, style_class: 'disk-name' }),
+      new St.Label({ text: disk_free, style_class: 'disk-free' }),
+      new St.Label({ text: disk_size, style_class: 'disk-size' }),
+    ];
+    /*
     return [new St.Icon({ icon_name: 'drive-multi-disk-symbolic' }),
             new St.Label({ text: disk_name, style_class: 'info-disk-name info-disk' }),
             new St.Label({ text: '|', style_class: 'separator info-disk' }),
             new St.Label({ text: disk_size, style_class: 'info-disk-size info-disk' }),
             new St.Label({ text: '|', style_class: 'separator info-disk' }),
             new St.Label({ text: disk_free, style_class: 'info-disk-free info-disk' })];
+            */
   },
 };
 
@@ -116,6 +123,8 @@ const SpaceIndicator = new Lang.Class({
   _setupDiskViews: function() {
     let arrayMount = [];
     arrayMount.push("/");
+    arrayMount.push("/home/jeremy/.wine");
+    arrayMount.push("/home/jeremy/Games");
 
     for(let i = 0; i < arrayMount.length; i++) {
       this._createDefaultApps(arrayMount[i], i, arrayMount);
@@ -125,10 +134,10 @@ const SpaceIndicator = new Lang.Class({
   _createDefaultApps: function(element, index, array) {
     let d = new Disk(element);
     let name = d._get_mount();
-    let size = ' Taille : ' + d._get_size();
-    let free = ' Libre : ' + d._get_free();
-    let vol = new ListDisks(name, size, free, {});
-    this.menu.addMenuItem(vol, 0);
+    let free = d._get_size_disk_free() + ' / ';
+    let size = d._get_size_disk() + ' Go';
+    let info = new ListDisks(name, free, size, {});
+    this.menu.addMenuItem(info, 0);
   },
 
   _openSettings: function () {
@@ -152,16 +161,24 @@ const Disk = new Lang.Class({
 
     // Size disk
     size = (this.gtop.blocks - this.gtop.bfree) / this.gtop.blocks;
-    this.size = (size * 1073741824) / this.gtop.blocks;
+    // this.size = size;//(size * 1073741824) / this.gtop.blocks;
+    this.size = this.gtop.blocks;//(size * 1073741824) / this.gtop.blocks;
     this.size_unit = 'Go';
 
     // Free space to disk with units
     this.free = 100 - Math.round(size * 100);
     this.free_unit = '%';
+
+    this.flag = this.gtop.flags;
+    this.block = this.gtop.blocks;
+    this.bfree = this.gtop.bfree;
+    this.bavail = this.gtop.bavail;
+    this.file = this.gtop.files;
+    this.ffree = this.gtop.ffree;
   },
 
   _get_size: function() {
-    return this.size.toFixed(2) + " " + this.size_unit;
+    return this.size;//.toFixed(2) + " " + this.size_unit;
   },
 
   _get_free: function() {
@@ -169,7 +186,19 @@ const Disk = new Lang.Class({
   },
 
   _get_mount: function() {
-    return 'Volume "' + this.path + '"';
+    return this.path;
+  },
+
+  /* Return disk size */
+  _get_size_disk: function() {
+    let calcul = Math.floor((this.block * 3.814697265625) / 1000000);
+    return '' + calcul;
+  },
+
+  /* Return disk size free */
+  _get_size_disk_free: function() {
+    let calcul = Math.floor((this.bavail * 3.814697265625) / 1000000);
+    return '' + calcul;
   }
 });
 
