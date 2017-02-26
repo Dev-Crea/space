@@ -1,20 +1,15 @@
 all: lint dist
 
-deps:
-  npm install -g jshint
+deps: npm install -g jshint
 
-lint:
-  jshint *.js
+lint: jshint *.js
 
-dist:
-  README.md\
+dist: README.md\
   LICENSE\
   extension.js\
   metadata.json
   zip -j Space@dev-crea.com.zip $?
 
-publish:
-  Space@dev-crea.com.zip
+publish: Space@dev-crea.com.zip
 
-clean:
-  rm -f *.zip
+clean: rm -f *.zip
