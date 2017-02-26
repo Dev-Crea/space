@@ -1,3 +1,6 @@
+/* jshint esversion: 6 */
+/* jshint proto: true */
+
 /*
  * Space Disk Utility
  */
@@ -31,7 +34,7 @@ const _ = Gettext.gettext;
  * Initialize application
  */
 function init() {
-    Utils.initTranslations("space");
+  Utils.initTranslations("space");
 }
 
 /*
@@ -111,7 +114,7 @@ const SpaceIndicator = new Lang.Class({
   },
 
   _setupDiskViews: function() {
-    let arrayMount = new Array();
+    let arrayMount = [];
     arrayMount.push("/");
 
     for(let i = 0; i < arrayMount.length; i++) {
@@ -153,7 +156,7 @@ const Disk = new Lang.Class({
     this.size_unit = 'Go';
 
     // Free space to disk with units
-    this.free = 100 - Math.round(size * 100)
+    this.free = 100 - Math.round(size * 100);
     this.free_unit = '%';
   },
 
@@ -166,7 +169,7 @@ const Disk = new Lang.Class({
   },
 
   _get_mount: function() {
-    return 'Volume "' + this.path + '"'
+    return 'Volume "' + this.path + '"';
   }
 });
 

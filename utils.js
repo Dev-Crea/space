@@ -1,3 +1,5 @@
+/* jshint esversion: 6 */
+
 const Gettext = imports.gettext;
 
 const Gio = imports.gi.Gio;
