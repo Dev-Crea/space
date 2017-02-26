@@ -36,53 +36,49 @@ function init() {
  * Application window
  */
 const SpaceIndicator = new Lang.Class({
-    Name: 'SpaceIndicator',
-    Extends: PanelMenu.Button,
+  Name: 'SpaceIndicator',
+  Extends: PanelMenu.Button,
 
-    _TimeoutUd: null,
-    _FirstTimeoutId: null,
-    _updateProcess_sourceId: null,
-    _updateProcess_stream: null,
+  _TimeoutUd: null,
+  _FirstTimeoutId: null,
+  _updateProcess_sourceId: null,
+  _updateProcess_stream: null,
 
-    _init: function() {
-        this.parent(0.0, "SpaceIndicator");
-        Gtk.IconTheme.get_default().append_search_path(Me.dir.get_child('icons').get_path());
+  _init: function() {
+    this.parent(0.0, "SpaceIndicator");
+    Gtk.IconTheme.get_default().append_search_path(Me.dir.get_child('icons').get_path());
 
-        this.updateIcon = new St.Icon({icon_name: "hard-disk",
-            style_class: 'system-status-icon'});
+    this.updateIcon = new St.Icon({icon_name: "hard-disk", style_class: 'system-status-icon'});
 
-        let box = new St.BoxLayout({ vertical: false,
-            style_class: 'panel-status-menu-box' });
-        this.label = new St.Label({ text: '',
-            y_expand: true,
-            y_align: Clutter.ActorAlign.CENTER });
+    let box = new St.BoxLayout({ vertical: false, style_class: 'panel-status-menu-box' });
+    this.label = new St.Label({ text: '', y_expand: true, y_align: Clutter.ActorAlign.CENTER });
 
-        box.add_child(this.updateIcon);
-        box.add_child(this.label);
-        this.actor.add_child(box);
+    box.add_child(this.updateIcon);
+    box.add_child(this.label);
+    this.actor.add_child(box);
 
-        // Prepare menu
-        this.menuExpander = new PopupMenu.PopupSubMenuMenuItem('');
-        this.updatesListMenuLabel = new St.Label();
-        this.menuExpander.menu.box.add(this.updatesListMenuLabel);
-        this.menuExpander.menu.box.style_class = 'space-list';
+    // Prepare menu
+    this.menuExpander = new PopupMenu.PopupSubMenuMenuItem('');
+    this.updatesListMenuLabel = new St.Label();
+    this.menuExpander.menu.box.add(this.updatesListMenuLabel);
+    this.menuExpander.menu.box.style_class = 'space-list';
 
-        // Configure settings popup
-        let settingsMenuItem = new PopupMenu.PopupMenuItem(_('Settings'));
+    // Configure settings popup
+    let settingsMenuItem = new PopupMenu.PopupMenuItem(_('Settings'));
 
-        //Add menu elements
-        this.menu.addMenuItem(this.menuExpander);
-        this.menu.addMenuItem(settingsMenuItem);
+    //Add menu elements
+    this.menu.addMenuItem(this.menuExpander);
+    this.menu.addMenuItem(settingsMenuItem);
 
-        // Apply action to menu
-        settingsMenuItem.connect('activate', Lang.bind(this, this._openSettings));
-    },
+    // Apply action to menu
+    settingsMenuItem.connect('activate', Lang.bind(this, this._openSettings));
+  },
 
-    _openSettings: function () {
-         Util.spawn([ "gnome-shell-extension-prefs", Me.uuid ]);
-    },
-    destroy: function() {
-    },
+  _openSettings: function () {
+    Util.spawn([ "gnome-shell-extension-prefs", Me.uuid ]);
+  },
+  destroy: function() {
+  },
 });
 
 /*
@@ -91,10 +87,10 @@ const SpaceIndicator = new Lang.Class({
 let spacediskindicator;
 
 function enable() {
-    spacediskindicator = new SpaceIndicator();
-    Main.panel.addToStatusArea("SpaceIndicator", spacediskindicator);
+  spacediskindicator = new SpaceIndicator();
+  Main.panel.addToStatusArea("SpaceIndicator", spacediskindicator);
 }
 
 function disable() {
-    spacediskindicator.destroy();
+  spacediskindicator.destroy();
 }
