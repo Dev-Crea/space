@@ -1,15 +1,24 @@
-# Space
+# <img src="icons/hard-disk.svg" width="32" alt="Extension icons"/> Space
 
-## Gnome shell extension :
-Widget for show disk space using
+Gnome extension for display a disk usage.
 
-## Manual Install :
-Downloading project
-    cd ~/.local/share/gnome-shell/extensions/
-    git clone https://github.com/Dev-Crea/space.git
+## Menu
+* [Manual Installation](#manual-installation)
+* [Update schemas](#update-schemas)
+* [Translate](#translate)
+* [Author](#author)
+
+## Manual Installation
+Install project manualy :
+
+```linux
+cd ~/.local/share/gnome-shell/extensions/
+git clone https://github.com/Dev-Crea/space.git
+```
 Restart gnome (Alt + F2 -> r) or reboot
 
 ## Update schemas
+
 ```Linux
 glib-compile-schemas schemas/
 ```
@@ -17,22 +26,5 @@ glib-compile-schemas schemas/
 ## Translate
 See [translating](https://github.com/codito/gnome-pomodoro/wiki/Translating)
 
-### Author :
+## Author
 [dev-crea](http://dev-crea.com)
-
-### Licence :
-Copyright (C) 2015 Vaillant Jeremy
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
