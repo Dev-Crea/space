@@ -22,19 +22,18 @@ const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
 const MessageTray = imports.ui.messageTray;
 
-const Util = imports.misc.util;
 const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
-const Utils = Me.imports.utils;
+// const Convenience = Me.imports.convenience;
 
-const Gettext = imports.gettext.domain('space');
+const Gettext = imports.gettext.domain('gnome-shell-extensions');
 const _ = Gettext.gettext;
 
 /*
  * Initialize application
  */
-function init() {
-  Utils.initTranslations("space");
+function init(metadata) {
+  // Convenience.initTranslations();
 }
 
 /*
@@ -64,14 +63,6 @@ ListDisks.prototype = {
       new St.Label({ text: disk_free, style_class: 'disk-free' }),
       new St.Label({ text: disk_size, style_class: 'disk-size' }),
     ];
-    /*
-    return [new St.Icon({ icon_name: 'drive-multi-disk-symbolic' }),
-            new St.Label({ text: disk_name, style_class: 'info-disk-name info-disk' }),
-            new St.Label({ text: '|', style_class: 'separator info-disk' }),
-            new St.Label({ text: disk_size, style_class: 'info-disk-size info-disk' }),
-            new St.Label({ text: '|', style_class: 'separator info-disk' }),
-            new St.Label({ text: disk_free, style_class: 'info-disk-free info-disk' })];
-            */
   },
 };
 
@@ -107,14 +98,14 @@ const SpaceIndicator = new Lang.Class({
     this.menuExpander.menu.box.style_class = 'space-list';
 
     // Configure settings popup
-    let settingsMenuItem = new PopupMenu.PopupMenuItem(_('Settings'));
+    // let settingsMenuItem = new PopupMenu.PopupMenuItem(_('Settings'));
 
     //Add menu elements
     // this.menu.addMenuItem(this.menuExpander);
-    this.menu.addMenuItem(settingsMenuItem);
+    // this.menu.addMenuItem(settingsMenuItem);
 
     // Apply action to menu
-    settingsMenuItem.connect('activate', Lang.bind(this, this._openSettings));
+    // settingsMenuItem.connect('activate', Lang.bind(this, this._openSettings));
 
     // Add list disk
     this._setupDiskViews();
@@ -135,13 +126,13 @@ const SpaceIndicator = new Lang.Class({
     let d = new Disk(element);
     let name = d._get_mount();
     let free = d._get_size_disk_free() + ' / ';
-    let size = d._get_size_disk() + ' Go';
+    let size = d._get_size_disk();
     let info = new ListDisks(name, free, size, {});
     this.menu.addMenuItem(info, 0);
   },
 
   _openSettings: function () {
-    Util.spawn([ "gnome-shell-extension-prefs", Me.uuid ]);
+    //Util.spawn([ "gnome-shell-extension-prefs", Me.uuid ]);
   },
 
   destroy: function() {
@@ -159,30 +150,23 @@ const Disk = new Lang.Class({
     this.gtop = new GTop.glibtop_fsusage();
     GTop.glibtop_get_fsusage(this.gtop, this.path);
 
-    // Size disk
-    size = (this.gtop.blocks - this.gtop.bfree) / this.gtop.blocks;
-    // this.size = size;//(size * 1073741824) / this.gtop.blocks;
-    this.size = this.gtop.blocks;//(size * 1073741824) / this.gtop.blocks;
-    this.size_unit = 'Go';
-
-    // Free space to disk with units
-    this.free = 100 - Math.round(size * 100);
-    this.free_unit = '%';
-
     this.flag = this.gtop.flags;
     this.block = this.gtop.blocks;
     this.bfree = this.gtop.bfree;
     this.bavail = this.gtop.bavail;
     this.file = this.gtop.files;
     this.ffree = this.gtop.ffree;
-  },
+    this.unit = 'go';
 
-  _get_size: function() {
-    return this.size;//.toFixed(2) + " " + this.size_unit;
-  },
-
-  _get_free: function() {
-    return this.free + " " + this.free_unit;
+    /*
+    this.settings = Prefs.getSettings();
+    this.unit = 'percent';
+    if (this.settings.get_boolean('field_diskpercent')) {
+      this.unit = 'percent';
+    } else {
+      this.unit = 'go';
+    }
+    */
   },
 
   _get_mount: function() {
@@ -191,14 +175,45 @@ const Disk = new Lang.Class({
 
   /* Return disk size */
   _get_size_disk: function() {
+    let size = Math.floor((this.block * 3.814697265625) / 1000000);
     let calcul = Math.floor((this.block * 3.814697265625) / 1000000);
-    return '' + calcul;
+    switch(this.unit) {
+      case 'percent':
+        calcul = 100;
+      break;
+      case 'go':
+        calcul = size;
+      break;
+    }
+    return calcul + this._get_unit();
   },
 
   /* Return disk size free */
   _get_size_disk_free: function() {
-    let calcul = Math.floor((this.bavail * 3.814697265625) / 1000000);
+    let free = Math.floor((this.bavail * 3.814697265625) / 1000000);
+    let calcul = '';
+    switch(this.unit) {
+      case 'percent':
+        calcul = Math.floor((free * 100) / ((this.block * 3.814697265625) / 1000000));
+      break;
+      case 'go':
+        calcul = free;
+      break;
+    }
     return '' + calcul;
+  },
+
+  _get_unit: function() {
+    unit = '';
+    switch(this.unit) {
+      case 'percent':
+        unit = ' %';
+      break;
+      case 'go':
+        unit = ' Go';
+      break;
+    }
+    return unit;
   }
 });
 
