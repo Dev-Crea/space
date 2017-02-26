@@ -1,4 +1,4 @@
-# Space
+# <img src="icons/hard-disk.svg" width="32" alt="Extension icons"/> Space
 
 Gnome extension for display a disk usage.
 
@@ -9,12 +9,16 @@ Gnome extension for display a disk usage.
 * [Author](#author)
 
 ## Manual Installation
-Downloading project
-    cd ~/.local/share/gnome-shell/extensions/
-    git clone https://github.com/Dev-Crea/space.git
+Install project manualy :
+
+```linux
+cd ~/.local/share/gnome-shell/extensions/
+git clone https://github.com/Dev-Crea/space.git
+```
 Restart gnome (Alt + F2 -> r) or reboot
 
 ## Update schemas
+
 ```Linux
 glib-compile-schemas schemas/
 ```
