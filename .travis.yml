@@ -1,8 +1,8 @@
 language: node_js
 
-install: make deps
+install: npm install -g jshint
 
-script: make all publish
+script: jshint *.js
 
 deploy:
   provider: releases
