@@ -1,29 +1,39 @@
+/* jshint esversion: 6 */
+
+const GLib = imports.gi.GLib;
 const GObject = imports.gi.GObject;
 const Gtk = imports.gi.Gtk;
 const Gio = imports.gi.Gio;
 const Lang = imports.lang;
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-const Utils = Me.imports.utils;
 
-const Gettext = imports.gettext.domain('space');
+const Gettext = imports.gettext.domain('gnome-shell-extensions');
 const _ = Gettext.gettext;
 
-let settings;
+const ExtensionUtils = imports.misc.extensionUtils;
+const Me = ExtensionUtils.getCurrentExtension();
+const Convenience = Me.imports.convenience;
 
 function init() {
-    settings = Utils.getSettings(Me);
+  Convenience.initTranslations();
 }
 
+const SettingsPrefsWidget = new GObject.class({
+  Name: 'Settings.Prefs.Widget',
+  GTypeName: 'SettingsPrefsWidget',
+  Extends: Gtk.Grid,
+
+  _init: function(params) {
+    this.parent(params);
+    this.margin = 12;
+    this.row_spacing = this.column_spacing = 6;
+    this.set_orientation(Gtk.Orientation.VERTICAL);
+    this._settings = Convenience.getSettings();
+  }
+});
+
 function buildPrefsWidget() {
-    // Prepare labels and controls settings windows
-    let buildable = new Gtk.Builder();
-    buildable.add_from_file( Me.dir.get_path() + '/prefs.xml' );
-    let box = buildable.get_object('vbox_built');
+  let widget = new SettingsPrefsWidget();
+  widget.show_all();
 
-    // Bind fields to settings
-    settings.bind('disk-percent', buildable.get_object('field_diskpercent'), 'active', Gio.SettingsBindFlags.DEFAULT);
-
-    // Display box
-    box.show_all();
-    return box;
+  return widget;
 }

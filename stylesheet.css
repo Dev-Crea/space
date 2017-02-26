@@ -1,14 +1,9 @@
-.info-disk {
-    width: 100px;
-    padding: 25px 5px;
+.disk-name {
+  width: 300px;
 }
 
-.separator.info-disk {
-    width: 10px;
-    text-align: center;
+.disk-free {
 }
 
-.info-disk-size {
-    width: 150px;
-    text-align: center;
+.disk-size {
 }
