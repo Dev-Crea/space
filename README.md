@@ -1,4 +1,4 @@
-# <img src="icons/hard-disk.svg" width="32" alt="Extension icons"/> Space
+# <img src="icons/hard-disk.svg" width="32" alt="Extension icons"/> Space -- [![Build Status](https://travis-ci.org/Dev-Crea/space.svg?branch=master)](https://travis-ci.org/Dev-Crea/space)
 
 Gnome extension for display a disk usage.
 
