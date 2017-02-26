@@ -7,12 +7,14 @@ script: jshint *.js
 before_deploy:
   - export RELEASE_PKG_FILE=$(cat version)
   - echo "deploying $RELEASE_PKG_FILE to Github releases"
+  - export RELEASE_NAME=space-${RELEASE_PKG_FILE}.zip
+  - zip -r ${RELEASE_NAME} .
 
 deploy:
   provider: releases
   api_key:
     secure: oQVFKWNdC63fPcDV61XpsAmLYwGWNDE5upoqdfzKVhRBa20R57V5QdBO/uxOpEvO7B+eVl1o18C39VrgZqhNfPW4DNWA4h2PhJLMK3u00iErG/sa33BiSxy0CvqE/U1SqHmG6+MyNE/yjcgSG8da88ztOcYduyC2I5TGP1LqOb+NiEOMfcq2mBuFDTCjR00xZtGyt+lU44uObuJGujemCSQO51y394fAgJkvoQxiXT1ijeJ8KLPbMF0g0O5uJiEDLVdQ7pKJj02G9f7nZrdynJsRqenn2J+jA1wIBvfhJuD7qhhUYnT85Y0PODmhUIkkBxPhj+s+Krzq6wmmUl8q1iN33q3nP9e0ZEzcPIa48ClJM1QGZ+iuUwl/a2CxSayZ4Hj8Glj6ikkqvtukOEksfw5wwDA0/wrckpx/Zp+EQwxTWi6hlspLghiEgV1/JDGT4imJBUjvwSgD5sZS1hD3BP/hNDFvK2mtyOkRpg6359l7rDkc+e3QIau7hB63+t+yvUtrwqsXhahX71hHD8fRO81xsBLcEhfdnlUF9AAzLAVBMnEEszsFmAkSFdjR3o0w7T+zZ3Cn6HXDGBcr8BWlml5mHB4JrFNbwkcL/5s1x08bwTqlpTQD0HxqAc6uPIOf815kbKfezmveHdUuvyZFQgepPoNAlEtJDIWe6zf2Tjs=
-  file: "space-${RELEASE_PKG_FILE}.zip"
+  file: ${RELEASE_NAME}
   skip_cleanup: true
   file_glob: true
   on:
