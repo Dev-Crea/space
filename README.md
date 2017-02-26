@@ -2,6 +2,8 @@
 
 Gnome extension for display a disk usage.
 
+![Screenshot project](presentation.jpg)
+
 ## Menu
 * [Manual Installation](#manual-installation)
 * [Update schemas](#update-schemas)
