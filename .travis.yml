@@ -12,7 +12,6 @@ deploy:
   skip_cleanup: true
   on:
     repo: Dev-Crea/space
-    tags: true
 
 
 notifications:
