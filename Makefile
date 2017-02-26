@@ -14,7 +14,7 @@ dist:
   zip -j Space@dev-crea.com.zip $?
 
 publish:
-  .infra/smartfile/publish remove-dropdown-arrows@mpdeimos.com.zip
+  Space@dev-crea.com.zip
 
 clean:
   rm -f *.zip
