@@ -22,18 +22,19 @@ const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
 const MessageTray = imports.ui.messageTray;
 
+const Util = imports.misc.util;
 const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
-// const Convenience = Me.imports.convenience;
+const Utils = Me.imports.utils;
 
-const Gettext = imports.gettext.domain('gnome-shell-extensions');
+const Gettext = imports.gettext.domain('space');
 const _ = Gettext.gettext;
 
 /*
  * Initialize application
  */
-function init(metadata) {
-  // Convenience.initTranslations();
+function init() {
+  Utils.initTranslations("space");
 }
 
 /*
@@ -98,14 +99,14 @@ const SpaceIndicator = new Lang.Class({
     this.menuExpander.menu.box.style_class = 'space-list';
 
     // Configure settings popup
-    // let settingsMenuItem = new PopupMenu.PopupMenuItem(_('Settings'));
+    let settingsMenuItem = new PopupMenu.PopupMenuItem(_('Settings'));
 
     //Add menu elements
     // this.menu.addMenuItem(this.menuExpander);
-    // this.menu.addMenuItem(settingsMenuItem);
+    this.menu.addMenuItem(settingsMenuItem);
 
     // Apply action to menu
-    // settingsMenuItem.connect('activate', Lang.bind(this, this._openSettings));
+    settingsMenuItem.connect('activate', Lang.bind(this, this._openSettings));
 
     // Add list disk
     this._setupDiskViews();
@@ -132,7 +133,7 @@ const SpaceIndicator = new Lang.Class({
   },
 
   _openSettings: function () {
-    //Util.spawn([ "gnome-shell-extension-prefs", Me.uuid ]);
+    Util.spawn([ "gnome-shell-extension-prefs", Me.uuid ]);
   },
 
   destroy: function() {
@@ -156,7 +157,6 @@ const Disk = new Lang.Class({
     this.bavail = this.gtop.bavail;
     this.file = this.gtop.files;
     this.ffree = this.gtop.ffree;
-    this.unit = 'go';
 
     /*
     this.settings = Prefs.getSettings();
@@ -177,7 +177,7 @@ const Disk = new Lang.Class({
   _get_size_disk: function() {
     let size = Math.floor((this.block * 3.814697265625) / 1000000);
     let calcul = Math.floor((this.block * 3.814697265625) / 1000000);
-    switch(this.unit) {
+    switch('percent') {
       case 'percent':
         calcul = 100;
       break;
@@ -192,7 +192,7 @@ const Disk = new Lang.Class({
   _get_size_disk_free: function() {
     let free = Math.floor((this.bavail * 3.814697265625) / 1000000);
     let calcul = '';
-    switch(this.unit) {
+    switch('percent') {
       case 'percent':
         calcul = Math.floor((free * 100) / ((this.block * 3.814697265625) / 1000000));
       break;
@@ -205,7 +205,7 @@ const Disk = new Lang.Class({
 
   _get_unit: function() {
     unit = '';
-    switch(this.unit) {
+    switch('percent') {
       case 'percent':
         unit = ' %';
       break;
