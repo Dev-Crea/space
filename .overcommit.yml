@@ -1,5 +1,3 @@
 PreCommit:
   JsHint:
     enabled: true
-  JsLint:
-    enabled: true
