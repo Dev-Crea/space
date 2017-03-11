@@ -16,6 +16,8 @@ const Gio = imports.gi.Gio;
 const not = imports.gi.Notify;
 const GTop = imports.gi.GTop;
 
+const MountList = imports.gi.GTop.mountlist;
+
 const Main = imports.ui.main;
 const Panel = imports.ui.panel;
 const PanelMenu = imports.ui.panelMenu;

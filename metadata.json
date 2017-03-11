@@ -3,8 +3,9 @@
     "name": "Space",
     "uuid": "Space@dev-crea.com",
     "shell-version": [
-        "3.18"
+        "3.18", "3.22"
     ],
     "url": "https://github.com/Dev-Crea/space",
-    "version": 0
+    "version": 2,
+    "settings-schema": "org.gnome.shell.extensions.services-systemd",
 }
