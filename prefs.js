@@ -12,12 +12,10 @@ const Convenience = Me.imports.convenience;
 
 const SpaceSettings = new GObject.Class({
   Name: 'Space-Settings',
-  // Extends: Gtk.Notebook,
   Extends: Gtk.Grid,
   GTypeName: 'SettingsPrefsWidget',
 
   _init: function(params) {
-    // this.settings = Convenience.getSettings();
     this.parent(params);
     this.margin = 12;
     this.row_spacing = this.column_spacing = 6;
