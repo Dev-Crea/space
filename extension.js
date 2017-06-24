@@ -16,8 +16,6 @@ const Gio = imports.gi.Gio;
 const not = imports.gi.Notify;
 const GTop = imports.gi.GTop;
 
-const MountList = imports.gi.GTop.mountlist;
-
 const Main = imports.ui.main;
 const Panel = imports.ui.panel;
 const PanelMenu = imports.ui.panelMenu;
@@ -60,6 +58,7 @@ ListDisks.prototype = {
     }
     this.actor.add_actor(this.liste);
   },
+
   create_text_items: function(disk_name, disk_free, disk_size) {
     return [
       new St.Label({ text: disk_name, style_class: 'disk-name' }),
@@ -117,8 +116,7 @@ const SpaceIndicator = new Lang.Class({
   _setupDiskViews: function() {
     let arrayMount = [];
     arrayMount.push("/");
-    arrayMount.push("/home/jeremy/.wine");
-    arrayMount.push("/home/jeremy/Games");
+
 
     for(let i = 0; i < arrayMount.length; i++) {
       this._createDefaultApps(arrayMount[i], i, arrayMount);
@@ -131,7 +129,15 @@ const SpaceIndicator = new Lang.Class({
     let free = d._get_size_disk_free() + ' / ';
     let size = d._get_size_disk();
     let info = new ListDisks(name, free, size, {});
+
     this.menu.addMenuItem(info, 0);
+  },
+
+  _run_list_disk: function() {
+    // let test = GTop.glibtop_get_mountlist();
+    let menuItem = new PopupMenu.PopupMenuItem('Menu Item');
+
+    this.menu.addMenuItem(menuItem);
   },
 
   _openSettings: function () {

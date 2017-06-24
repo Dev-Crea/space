@@ -12,10 +12,17 @@ const Convenience = Me.imports.convenience;
 
 const SpaceSettings = new GObject.Class({
   Name: 'Space-Settings',
-  Extends: Gtk.Notebook,
+  // Extends: Gtk.Notebook,
+  Extends: Gtk.Grid,
+  GTypeName: 'SettingsPrefsWidget',
 
   _init: function(params) {
-    this.settings = Convenience.getSettings();
+    // this.settings = Convenience.getSettings();
+    this.parent(params);
+    this.margin = 12;
+    this.row_spacing = this.column_spacing = 6;
+    this.set_orientation(Gtk.Orientation.VERTICAL);
+    this._settings = Convenience.getSettings();
   }
 });
 
@@ -23,8 +30,8 @@ function init() {
 }
 
 function buildPrefsWidget() {
-    let widget = new SpaceSettings();
-    widget.show_all();
+  let widget = new SpaceSettings();
+  widget.show_all();
 
-    return widget;
+  return widget;
 }

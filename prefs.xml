@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<interface domain="space">
+
+<object class="GtkVBox" id="vbox_built">
+    <property name="margin">10</property>
+    <property name="spacing">5</property>
+
+    <child>
+        <object class="GtkLabel">
+            <property name="label">Format data</property>
+            <property name="use_markup">true</property>
+            <property name="hexpand">true</property>
+            <property name="halign">1</property>
+        </object>
+    </child>
+
+    <child>
+        <object class="GtkBox">
+            <child>
+                <object class="GtkLabel">
+                    <property name="label">Give size in percent.</property>
+                    <property name="hexpand">true</property>
+                    <property name="halign">1</property>
+                </object>
+            </child>
+            <child>
+                <object class="GtkSwitch" id="field_diskpercent">
+                    <property name="active">true</property>
+                </object>
+            </child>
+        </object>
+    </child>
+</object>
+
+</interface>
