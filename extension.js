@@ -133,13 +133,6 @@ const SpaceIndicator = new Lang.Class({
     this.menu.addMenuItem(info, 0);
   },
 
-  _run_list_disk: function() {
-    // let test = GTop.glibtop_get_mountlist();
-    let menuItem = new PopupMenu.PopupMenuItem('Menu Item');
-
-    this.menu.addMenuItem(menuItem);
-  },
-
   _openSettings: function () {
     Util.spawn([ "gnome-shell-extension-prefs", Me.uuid ]);
   },
