@@ -18,7 +18,7 @@
    inkscape:version="0.92.1 r"><metadata
      id="metadata9"><rdf:RDF><cc:Work
          rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title /></cc:Work></rdf:RDF></metadata><defs
      id="defs7" /><sodipodi:namedview
      pagecolor="#ffffff"
      bordercolor="#666666"
@@ -29,14 +29,14 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:window-width="1920"
-     inkscape:window-height="1043"
+     inkscape:window-height="1016"
      id="namedview5"
      showgrid="false"
      inkscape:zoom="1.3350176"
      inkscape:cx="232.29958"
      inkscape:cy="211.16324"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:window-x="1920"
+     inkscape:window-y="27"
      inkscape:window-maximized="1"
      inkscape:current-layer="Layer_1" /><path
      clip-rule="evenodd"
@@ -44,4 +44,4 @@
      fill="#010101"
      fill-rule="evenodd"
      id="path2"
-     style="fill:#ffffff" /></svg>
+     style="fill:#cccccc" /></svg>
