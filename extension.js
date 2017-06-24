@@ -99,7 +99,6 @@ const SpaceIndicator = new Lang.Class({
     let settingsMenuItem = new PopupMenu.PopupMenuItem(_('Settings'));
 
     //Add menu elements
-    // this.menu.addMenuItem(this.menuExpander);
     this.menu.addMenuItem(settingsMenuItem);
 
     // Apply action to menu
@@ -112,7 +111,8 @@ const SpaceIndicator = new Lang.Class({
   _setupDiskViews: function() {
     let arrayMount = [];
     arrayMount.push("/");
-
+    arrayMount.push("/home/jeremy/.wine");
+    arrayMount.push("/home/jeremy/Games");
 
     for(let i = 0; i < arrayMount.length; i++) {
       this._createDefaultApps(arrayMount[i], i, arrayMount);
@@ -130,7 +130,6 @@ const SpaceIndicator = new Lang.Class({
   },
 
   _openSettings: function () {
-    // Convenience.spawn([ "gnome-shell-extension-prefs", Me.uuid ]);
     Convenience.getSettings(SETTINGS_SCHEMA);
   },
 
