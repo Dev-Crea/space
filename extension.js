@@ -77,6 +77,8 @@ const SpaceIndicator = new Lang.Class({
   _updateProcess_stream: null,
 
   _init: function() {
+    this._settings = Convenience.getSettings(SETTINGS_SCHEMA);
+
     this.parent(0.0, "SpaceIndicator");
     Gtk.IconTheme.get_default().append_search_path(Me.dir.get_child('icons').get_path());
 
@@ -110,6 +112,9 @@ const SpaceIndicator = new Lang.Class({
 
   _setupDiskViews: function() {
     let arrayMount = [];
+
+    // let disks = Convenience.getListDisks();
+
     arrayMount.push("/");
     arrayMount.push("/home/jeremy/.wine");
     arrayMount.push("/home/jeremy/Games");
@@ -117,6 +122,13 @@ const SpaceIndicator = new Lang.Class({
     for(let i = 0; i < arrayMount.length; i++) {
       this._createDefaultApps(arrayMount[i], i, arrayMount);
     }
+    /*
+    for(let i = 0; i < disks.length; i++) {
+      let info = new St.Label({ text: 'test', style_class: 'disk-name' });
+
+      this.menu.addMenuItem(info, 0);
+    }
+    */
   },
 
   _createDefaultApps: function(element, index, array) {

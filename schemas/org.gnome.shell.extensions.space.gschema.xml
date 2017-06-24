@@ -1,14 +1,18 @@
-<schemalist gettext-domain="gnome-shell-extensions">
-    <schema id="org.gnome.shell.extensions.space"
-        path="/org/gnome/shell/extensions/space/">
-
-        <key type="b" name="disk-percent">
-            <default>true</default>
-            <summary>Display data in percent</summary>
-            <description>
-                If true, the size disk free in displaying in percent. By default is true.
-            </description>
-        </key>
-
+<schemalist gettext-domain="space">
+    <schema id="org.gnome.shell.extensions.space" path="/org/gnome/shell/extensions/space/">
+      <key type="b" name="disk-percent">
+        <default>true</default>
+        <summary>Display data in percent.</summary>
+        <description>
+          If true, the size disk free in display in percent.
+        </description>
+      </key>
+      <key type="a" name="list-disk">
+        <default>['/']</default>
+        <summary>List disk to survey.</summary>
+        <description>
+          List to disks.
+        </description>
+      </key>
     </schema>
 </schemalist>

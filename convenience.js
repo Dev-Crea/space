@@ -52,3 +52,9 @@ function getSettings(schema) {
 
   return new Gio.Settings({settings_schema: schemaObj});
 }
+
+function getListDisks() {
+  schema = schema || extension.metadata['settings-schema'];
+
+  return schema.get_array('list-disk');
+}
