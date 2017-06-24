@@ -1,10 +1,11 @@
 {
-  "description": "Space disk usage", 
-  "name": "Space", 
+  "description": "Space disk usage",
+  "name": "Space",
   "shell-version": [
     "3.18"
-  ], 
-  "url": "https://github.com/Dev-Crea/space", 
-  "uuid": "Space@dev-crea.com", 
+  ],
+  "url": "https://github.com/Dev-Crea/space",
+  "uuid": "Space@dev-crea.com",
+  "settings-schema": "org.gnome.shell.extensions.space",
   "version": 2
 }

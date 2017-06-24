@@ -22,20 +22,16 @@ const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
 const MessageTray = imports.ui.messageTray;
 
-const Util = imports.misc.util;
 const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
-const Utils = Me.imports.utils;
+const Convenience = Me.imports.convenience;
 
 const Gettext = imports.gettext.domain('space');
 const _ = Gettext.gettext;
 
-/*
- * Initialize application
- */
-function init() {
-  Utils.initTranslations("space");
-}
+// Option to this application
+const SETTINGS_SCHEMA = "org.gnome.shell.extensions.space";
+const NAME_APPLICATION = "Space";
 
 /*
  * List disk
@@ -134,7 +130,8 @@ const SpaceIndicator = new Lang.Class({
   },
 
   _openSettings: function () {
-    Util.spawn([ "gnome-shell-extension-prefs", Me.uuid ]);
+    // Convenience.spawn([ "gnome-shell-extension-prefs", Me.uuid ]);
+    Convenience.getSettings(SETTINGS_SCHEMA);
   },
 
   destroy: function() {

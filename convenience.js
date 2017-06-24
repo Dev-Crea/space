@@ -24,11 +24,10 @@ function initTranslations(domain) {
   }
 }
 
-function getSettings() {
+function getSettings(schema) {
   let extension = ExtensionUtils.getCurrentExtension();
-  let schema = 'org.gnome.shell.extensions.space';
-  let schemaDir = extension.dir.get_child('schemas');
-  let schemaSource;
+
+  schema = schema || extension.metadata['settings-schema'];
 
   const GioSSS = Gio.SettingsSchemaSource;
 
@@ -37,6 +36,8 @@ function getSettings() {
   // otherwise assume that extension has been installed in the
   // same prefix as gnome-shell (and therefore schemas are available
   // in the standard folders)
+  let schemaDir = extension.dir.get_child('schemas');
+  let schemaSource;
   if (schemaDir.query_exists(null)) {
     schemaSource = GioSSS.new_from_directory(schemaDir.get_path(), GioSSS.get_default(), false);
   } else {

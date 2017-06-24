@@ -10,6 +10,27 @@ const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
 const Convenience = Me.imports.convenience;
 
+const SETTINGS_SCHEMA = "org.gnome.shell.extensions.space";
+const NAME_APPLICATION = "Space";
+
+/*
+ * Initialize application
+ */
+function init() {
+  Convenience.initTranslations(NAME_APPLICATION);
+  gsettings = Convenience.getSettings(SETTINGS_SCHEMA);
+  settings = {
+    disk_percent: {
+      type: "b",
+      label: 'Percent ?'
+    },
+    list_disk: {
+      type: "b",
+      label: "Disk to survey"
+    }
+  };
+}
+
 const SpaceSettings = new GObject.Class({
   Name: 'Space-Settings',
   Extends: Gtk.Grid,
@@ -23,9 +44,6 @@ const SpaceSettings = new GObject.Class({
     this._settings = Convenience.getSettings();
   }
 });
-
-function init() {
-}
 
 function buildPrefsWidget() {
   let widget = new SpaceSettings();
