@@ -64,16 +64,28 @@ const SpaceSettings = new GObject.Class({
     // Add page to window
     this.append_page(disk_page, new Gtk.Label({label: "Disks"}));
 
+    // Add default data
+    this._store.set(this._store.append(), [0, 1], ["Root", "/"]);
+
+    // Add button for adding new mount
+    let grid = new Gtk.Grid();
+    let label_new_name_disk = new Gtk.Label({label: "Name :"});
+    let label_new_path_disk = new Gtk.Label({label: "Path :"});
+    let entry_new_name_disk = new Gtk.Entry();
+    let entry_new_path_disk = new Gtk.Entry();
+    let button_add_new_entry = new Gtk.ToolButton({label: "Add new disk"});
+
+    // Add line for adding a new disk
+    grid.attach(label_new_name_disk, 1, 1, 1, 1);
+    grid.attach_next_to(entry_new_name_disk, label_new_name_disk, 1, 1, 1);
+    grid.attach_next_to(label_new_path_disk, entry_new_name_disk, 1, 1, 1);
+    grid.attach_next_to(entry_new_path_disk, label_new_path_disk, 1, 1, 1);
+    grid.attach_next_to(button_add_new_entry, entry_new_path_disk, 1, 1, 1);
+
     // Add element to page
     disk_page.add(title_label);
     disk_page.add(this._tree_view);
-
-    // Add data
-    let data_root = JSON.stringify({ "name": "Root", "path": "/" });
-    let widget = new Gtk.Label();
-    widget.set_label("dlkfjnl");
-
-    this._tree_view.add(widget);
+    disk_page.add(grid);
   },
 
   _page_setting: function() {
