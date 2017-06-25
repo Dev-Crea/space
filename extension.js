@@ -22,6 +22,7 @@ const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
 const MessageTray = imports.ui.messageTray;
 
+const Util = imports.misc.util;
 const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
 const Convenience = Me.imports.convenience;
@@ -71,12 +72,16 @@ const SpaceIndicator = new Lang.Class({
   Name: 'SpaceIndicator',
   Extends: PanelMenu.Button,
 
+  _entries: [],
   _TimeoutUd: null,
   _FirstTimeoutId: null,
   _updateProcess_sourceId: null,
   _updateProcess_stream: null,
 
   _init: function() {
+    this._settings = Convenience.getSettings(SETTINGS_SCHEMA);
+    this._settings.connect('changed', Lang.bind(this, this._loadConfig));
+
     this.parent(0.0, "SpaceIndicator");
     Gtk.IconTheme.get_default().append_search_path(Me.dir.get_child('icons').get_path());
 
@@ -95,17 +100,22 @@ const SpaceIndicator = new Lang.Class({
     this.menuExpander.menu.box.add(this.updatesListMenuLabel);
     this.menuExpander.menu.box.style_class = 'space-list';
 
+    // ******* DELETED
     // Configure settings popup
-    let settingsMenuItem = new PopupMenu.PopupMenuItem(_('Settings'));
+    // let settingsMenuItem = new PopupMenu.PopupMenuItem(_('Settings'));
 
     //Add menu elements
-    this.menu.addMenuItem(settingsMenuItem);
+    // this.menu.addMenuItem(settingsMenuItem);
 
     // Apply action to menu
-    settingsMenuItem.connect('activate', Lang.bind(this, this._openSettings));
+    // settingsMenuItem.connect('activate', Lang.bind(this, this._openSettings));
 
     // Add list disk
-    this._setupDiskViews();
+    // this._setupDiskViews();
+    // ******* DELETED
+
+    this._loadConfig();
+    this._refresh();
   },
 
   _setupDiskViews: function() {
@@ -134,8 +144,23 @@ const SpaceIndicator = new Lang.Class({
     // Convenience.getSettings(SETTINGS_SCHEMA);
   },
 
-  destroy: function() {
+  _loadConfig: function() {
+    // let entries = this._settings.get_strv("");
   },
+
+  _refresh: function() {
+    let setting_window = new PopupMenu.PopupMenuItem(_('Settings'));
+    /*
+    setting_window.connect('activate', Lang.bind(this, function() {
+      Util.spawn(["gnome-shell-extension-prefs", "space@dev-crea.com"]);
+      this.menu.close();
+    }));
+    */
+    this.menu.addMenuItem(setting_window);
+  },
+
+  destroy: function() {
+  }
 });
 
 /*
